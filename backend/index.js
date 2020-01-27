@@ -23,10 +23,10 @@ const playerConnected = (socket) => {
     socket
   };
 
-  players.forEach( p => socket.emit('registerPlayer', p.data))
+  players.forEach( p => socket.emit('registerPlayer', p.data));
+  socket.emit('setId', id);
   players.push(player);
   players.forEach( p => p.socket.emit('registerPlayer', player.data)) // register new player
-
   return id;
 }
 
