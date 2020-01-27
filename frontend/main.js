@@ -5,38 +5,17 @@ ctx.font = "30px Arial";
 
 let images = {
     'standing' : [ document.getElementById('standing'), document.getElementById('standing2') ],
-    'walking' : [ document.getElementById('walking'), document.getElementById('walking2') ]
-}
-
-let singleActions = {
-    'w' : 'jump',
-    's' : 'crouch',
-    ' ' : 'jump',
-    'Enter' : 'attack'
-}
-let continuousActions = {
-    'a' : 'left',
-    'd' : 'right',
+    'walking' : [ document.getElementById('walking'), document.getElementById('walking2') ],
+    'punch' : [ document.getElementById('punch') ]
 }
 
 function keydown ( evt ) {
-    if ( singleActions[evt.key] )
-        socket.emit('doAction', { 'action' : singleActions[evt.key] } )
-    if ( continuousActions[evt.key] )
-        socket.emit('startAction', { 'action' : continuousActions[evt.key] } )
-
     if ( evt.key == 'd' )
-        players[0].x += 10
-    if ( evt.key == 'a' )
-        players[0].x -= 10
-    if ( evt.key == 's' )
-        players[0].y += 10
-    if ( evt.key == 'w' )
-        players[0].y -= 10
+        socket.emit('startLeft', {} )
 }
 function keyup ( evt ){
-    if ( continuousActions[evt.key] )
-        socket.emit('stopAction', { 'action' : continuousActions[evt.key] } )
+    if ( evt.key == 'd' )
+        socket.emit('stopLeft', {} )
 }
 
 document.addEventListener( 'keydown', keydown )
@@ -44,7 +23,7 @@ document.addEventListener( 'keyup', keyup )
 
 // Game Code
 
-let players = [{ name : 'test', x : 100, y : 100, state : 'walking' }]
+let players = [{ name : 'test', x : 100, y : 100, state : 'punch' }]
 let frame = 0;
 
 socket.on ( 'registerPlayer', info => {
