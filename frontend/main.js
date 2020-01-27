@@ -66,7 +66,7 @@ setInterval(() => {
             ctx.translate(800, 0);
             ctx.scale(-1, 1);
             ctx.drawImage( images[player.state][frameNumber], 700 - player.x, player.y )
-            ctx.scale(1, -1);
+            ctx.scale(-1, 1);
             ctx.translate(-800, 0);
         }
         else {
