@@ -10,16 +10,40 @@ let players = [];
 app.use(express.static('../frontend'))
 
 const playerConnected = () => {
-  players.push({
-    id: UUID.v4(),
+  const id = UUID.v4();
+  const player = {
+    id,
     x: 0,
-    y: 0
-  });
+    y: 0,
+    isMovingLeft: false
+  };
+  players.push(player);
+  io.emit('registerPlayer', player);
+  return id;
 }
+
+const toggleMovingLeft = (playerId) => {
+  const player = players.filter(p => { return p.id === playerId })[0]
+  console.log(player)
+  player.isMovingLeft = !player.isMovingLeft;
+}
+
+setInterval(() => {
+  players.forEach(player => {
+    if(player.isMovingLeft) {
+      player.x = player.x + 1;
+      io.emit('stateUpdate', player);
+    }
+  });
+}, 1);
+
+setInterval(() => {
+  console.log(players)
+}, 1000)
 
 io.on('connection', function(socket){
   console.log('a user connected');
-  playerConnected();
+  const id = playerConnected();
   console.log(players)
 
   socket.on('sending', function(data){
@@ -34,7 +58,11 @@ io.on('connection', function(socket){
   });
 
   socket.on('startLeft', function(msg){
-     console.log('hello')
+     toggleMovingLeft(id);
+  });
+
+  socket.on('stopLeft', function(msg){
+     toggleMovingLeft(id);
   });
 
 
