@@ -68,12 +68,11 @@ setInterval(() => {
   players.forEach(player => {
     if(player.data.isMovingLeft) {
       player.data.x = player.data.x - 10;
-      io.emit('stateUpdate', player.data);
     }
     if(player.data.isMovingRight) {
       player.data.x = player.data.x + 10;
-      io.emit('stateUpdate', player.data);
     }
+    io.emit('stateUpdate', player.data);
   });
 }, (1000/60));
 
@@ -107,11 +106,11 @@ io.on('connection', function(socket){
   });
 
   socket.on('attackRight', function(msg){
-     handleAttack('right');
+     handleAttack(id, 'right');
   });
 
   socket.on('attackLeft', function(msg){
-     handleAttack('left');
+     handleAttack(id, 'left');
   });
 
 
