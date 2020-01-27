@@ -30,7 +30,7 @@ document.addEventListener( 'keyup', keyup )
 
 // Game Code
 
-let players = { 123 : { name : 'test', x : 200, y : 100, state : 'punch', flip : true }}
+let players = { }
 let frame = 0;
 
 socket.on ( 'registerPlayer', info => {
