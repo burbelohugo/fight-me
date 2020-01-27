@@ -6,7 +6,8 @@ ctx.font = "30px Arial";
 let images = {
     'standing' : [ document.getElementById('standing'), document.getElementById('standing2') ],
     'walking' : [ document.getElementById('walking'), document.getElementById('walking2') ],
-    'punch' : [ document.getElementById('punch') ]
+    'punch' : [ document.getElementById('punch') ],
+    'ground' : [ document.getElementById('ground') ],
 }
 
 function keydown ( evt ) {
@@ -51,6 +52,10 @@ setInterval(() => {
     ctx.fillRect(0, 0, 800, 800);
     ctx.fillStyle = "#000000"
     
+
+    let frameNumber = frame % images['ground'].length ;
+    ctx.drawImage( images['ground'][frameNumber], 0, 600 )
+
     let ids = Object.keys( players )
     ids.forEach( playerId => {
 
