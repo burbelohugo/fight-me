@@ -45,6 +45,7 @@ socket.on ( 'registerPlayer', info => {
 socket.on( 'stateUpdate', player => {
     players[player.id].flip = player.x < players[player.id].x;
     players[player.id] = { ... players[player.id], ... player }
+    console.log( player )
     if ( player.isMovingLeft || player.isMovingRight )
         player.state = 'walking'
     else
@@ -73,7 +74,6 @@ setInterval(() => {
         ctx.fillRect(player.x, player.y + 20, player.health, 5);
         ctx.fillStyle = "#000000"
 
-        console.log( player.health )
 
         if ( player.flip ){
             ctx.translate(800, 0);
