@@ -42,11 +42,11 @@ const toggleMoving = (playerId, direction, move) => {
 }
 
 const playerIsCloseToAttack = (x1, x2, direction) => {
-  let offset = 30;
+  let offset = 50;
   if(direction === 'left') {
-    offset = -30;
+    offset = -50;
   }
-  return x1 - x2 < offset;
+  return (x1 + 50) - (x2+ 50) < offset;
 }
 
 const handleAttack = (playerId, direction) => {
