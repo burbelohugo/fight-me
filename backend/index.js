@@ -1,33 +1,29 @@
 
-var http = require('http'),
-    fs = require('fs'),
-    // NEVER use a Sync function except at start-up!
-    index = fs.readFileSync(__dirname + '/index.html');
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
-// Send index.html to all requests
-var app = http.createServer(function(req, res) {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.end(index);
+io.on('connection', function(socket){
+  console.log('a user connected');
+
+  socket.on('sending', function(data){
+        console.log(data);
+
+        io.emit('recieve', data);
+
+
+        if(data=="exit"){
+        	socket.disconnect( console.log('sender disconnected'));
+        }
+  });
+
+
 });
 
-// Socket.io server listens to our app
-var io = require('socket.io').listen(app);
-
-// Send current time to all connected clients
-function sendTime() {
-    io.sockets.emit('time', { time: new Date().toJSON() });
-}
-
-// Send current time every 10 secs
-setInterval(sendTime, 10000);
-
-// Emit welcome message on connection
-io.sockets.on('connection', function(socket) {
-    socket.emit('welcome', { message: 'Welcome!' });
-
-    socket.on('i am client', function() {
-      console.log('received a message from the client.');
-    });
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/index.html');
 });
 
-app.listen(3001);
+server.listen(3000, function(){
+  console.log('listening on *:3000');
+});
