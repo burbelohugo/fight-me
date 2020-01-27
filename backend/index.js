@@ -17,6 +17,7 @@ const playerConnected = (socket) => {
       x: 0,
       y: 0,
       isMovingLeft: false,
+      isMovingRight: false
     },
     socket
   };
@@ -28,15 +29,25 @@ const playerConnected = (socket) => {
   return id;
 }
 
-const toggleMovingLeft = (playerId) => {
+const toggleMoving = (playerId, direction) => {
   const player = players.filter(p => { return p.data.id === playerId })[0]
   console.log(player)
-  player.data.isMovingLeft = !player.data.isMovingLeft;
+  let movingDirection = "isMovingLeft";
+
+  if(direction === 'right') {
+    movingDirection = "isMovingRight";
+  }
+
+  player.data[movingDirection] = !player.data[movingDirection];
 }
 
 setInterval(() => {
   players.forEach(player => {
     if(player.data.isMovingLeft) {
+      player.data.x = player.data.x - 1;
+      io.emit('stateUpdate', player.data);
+    }
+    if(player.data.isMovingRight) {
       player.data.x = player.data.x + 1;
       io.emit('stateUpdate', player.data);
     }
@@ -64,11 +75,19 @@ io.on('connection', function(socket){
   });
 
   socket.on('startLeft', function(msg){
-     toggleMovingLeft(id);
+     toggleMoving(id, 'left');
   });
 
   socket.on('stopLeft', function(msg){
-     toggleMovingLeft(id);
+     toggleMoving(id, 'left');
+  });
+
+  socket.on('startRight', function(msg){
+     toggleMoving(id, 'right');
+  });
+
+  socket.on('stopRight', function(msg){
+     toggleMoving(id, 'right');
   });
 
 
