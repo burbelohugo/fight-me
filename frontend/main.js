@@ -68,7 +68,10 @@ setInterval(() => {
 
         let player = players[playerId]
         let frameNumber = frame % images[player.state].length ;
-        ctx.fillText(player.name, player.x + 20, player.y )
+        
+        ctx.fillStyle = "#FF0000"
+        ctx.fillRect(player.x, player.y, player.health, 5);
+        ctx.fillStyle = "#000000"
 
         if ( player.flip ){
             ctx.translate(800, 0);
