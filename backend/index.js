@@ -29,42 +29,44 @@ const playerConnected = (socket) => {
   return id;
 }
 
-const toggleMoving = (playerId, direction) => {
+const toggleMoving = (playerId, direction, move) => {
   const player = players.filter(p => { return p.data.id === playerId })[0]
-  console.log(player)
+  // console.log('going ' + direction +)
+  // console.log(player)
   let movingDirection = "isMovingLeft";
 
   if(direction === 'right') {
     movingDirection = "isMovingRight";
   }
 
-  player.data[movingDirection] = !player.data[movingDirection];
+  player.data[movingDirection] = move;
+  console.log(player.data)
 }
 
 setInterval(() => {
   players.forEach(player => {
     if(player.data.isMovingLeft) {
-      player.data.x = player.data.x - 1;
+      player.data.x = player.data.x - 10;
       io.emit('stateUpdate', player.data);
     }
     if(player.data.isMovingRight) {
-      player.data.x = player.data.x + 1;
+      player.data.x = player.data.x + 10;
       io.emit('stateUpdate', player.data);
     }
   });
-}, 1);
+}, (1000/60));
 
 setInterval(() => {
-  console.log(players)
+  // console.log(players)
 }, 1000)
 
 io.on('connection', function(socket){
   console.log('a user connected');
   const id = playerConnected(socket);
-  console.log(players)
+  // console.log(players)
 
   socket.on('sending', function(data){
-        console.log(data);
+        // console.log(data);
 
         io.emit('recieve', data);
 
@@ -75,19 +77,23 @@ io.on('connection', function(socket){
   });
 
   socket.on('startLeft', function(msg){
-     toggleMoving(id, 'left');
+     toggleMoving(id, 'left', true);
+     console.log('going left')
   });
 
   socket.on('stopLeft', function(msg){
-     toggleMoving(id, 'left');
+     toggleMoving(id, 'left', false);
+     console.log('stopping left')
   });
 
   socket.on('startRight', function(msg){
-     toggleMoving(id, 'right');
+     toggleMoving(id, 'right', true);
+     console.log('going right')
   });
 
   socket.on('stopRight', function(msg){
-     toggleMoving(id, 'right');
+     toggleMoving(id, 'right', false);
+     console.log('stopping right')
   });
 
 
