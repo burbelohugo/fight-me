@@ -54,7 +54,7 @@ const handleAttack = (playerId, direction) => {
   const attackingPosition = attackingPlayer.data.x;
   players.forEach(player => {
     if(player.data.id !== playerId && playerIsCloseToAttack(attackingPosition, player.data.x, direction)) {
-      player.data.health =- 10;
+      player.data.health = player.data.health - 10;
       console.log('ding')
     }
   })
