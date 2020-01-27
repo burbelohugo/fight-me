@@ -35,9 +35,12 @@ let frame = 0;
 
 socket.on ( 'registerPlayer', info => {
     players[info.id] = { ... info, ... { name : 'test', flip : false, state : 'standing' } }
+    console.log (players )
 })
 
 socket.on( 'stateUpdate', player => {
+    console.log (players )
+    console.log ( player )
     players[player.id].flip = player.x > players[player.id].x;
     players[player.id] = { ... players[player.id], ... player }
 })
