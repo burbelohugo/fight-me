@@ -43,6 +43,8 @@ socket.on ( 'registerPlayer', info => {
 })
 
 socket.on( 'stateUpdate', player => {
+    if ( player.health < 0 )
+        player.health = 0;
     if ( player.x != players[player.id].x)
         players[player.id].flip = player.x < players[player.id].x;
     players[player.id] = { ... players[player.id], ... player }
@@ -50,6 +52,9 @@ socket.on( 'stateUpdate', player => {
         player.state = 'walking'
     else
         player.state = 'standing'
+    if ( player.id == localId && player.health == 0 ){
+        alert('You Died ;(')
+    }
 })
 
 // Game Loop
