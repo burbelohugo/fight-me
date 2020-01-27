@@ -45,6 +45,10 @@ socket.on ( 'registerPlayer', info => {
 socket.on( 'stateUpdate', player => {
     players[player.id].flip = player.x < players[player.id].x;
     players[player.id] = { ... players[player.id], ... player }
+    if ( player.movingLeft || player.movingRight )
+        player.state = 'walking'
+    else
+        player.state = 'standing'
 })
 
 // Game Loop
