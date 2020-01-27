@@ -31,7 +31,7 @@ const playerConnected = (socket) => {
 }
 
 const toggleMoving = (playerId, direction, move) => {
-  const player = players.filter(p => { return p.data.id === playerId })[0]
+  const player = getPlayer(playerId);
   let movingDirection = "isMovingLeft";
 
   if(direction === 'right') {
@@ -39,6 +39,29 @@ const toggleMoving = (playerId, direction, move) => {
   }
 
   player.data[movingDirection] = move;
+}
+
+const playerIsCloseToAttack = (x1, x2, direction) => {
+  let offset = 30;
+  if(direction === 'left') {
+    offset = -30;
+  }
+  return x1 - x2 < offset;
+}
+
+const handleAttack = (playerId, direction) => {
+  const attackingPlayer = getPlayer(playerId);
+  const attackingPosition = attackingPlayer.data.x;
+  players.forEach(player => {
+    if(player.id !== playerId && playerIsCloseToAttack(attackingPosition, player.data.x, direction)) {
+      player.data.heath =- 10;
+      console.log('ding')
+    }
+  })
+}
+
+const getPlayer = (playerId) => {
+  return players.filter(p => { return p.data.id === playerId })[0];
 }
 
 setInterval(() => {
@@ -81,6 +104,14 @@ io.on('connection', function(socket){
 
   socket.on('stopRight', function(msg){
      toggleMoving(id, 'right', false);
+  });
+
+  socket.on('attackRight', function(msg){
+     handleAttack('right');
+  });
+
+  socket.on('attackLeft', function(msg){
+     handleAttack('left');
   });
 
 
