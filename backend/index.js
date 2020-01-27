@@ -15,7 +15,7 @@ const playerConnected = (socket) => {
     data: {
       id,
       x: 0,
-      y: 0,
+      y: 500,
       isMovingLeft: false,
       isMovingRight: false,
       health: 100
