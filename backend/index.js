@@ -1,10 +1,13 @@
 
 var app = require('express')();
+var express = require('express');
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 const path = require('path');
 const UUID = require('uuid');
 let players = [];
+
+app.use(express.static('../frontend'))
 
 const playerConnected = () => {
   players.push({
