@@ -17,7 +17,8 @@ const playerConnected = (socket) => {
       x: 0,
       y: 0,
       isMovingLeft: false,
-      isMovingRight: false
+      isMovingRight: false,
+      heath: 100
     },
     socket
   };
@@ -31,8 +32,6 @@ const playerConnected = (socket) => {
 
 const toggleMoving = (playerId, direction, move) => {
   const player = players.filter(p => { return p.data.id === playerId })[0]
-  // console.log('going ' + direction +)
-  // console.log(player)
   let movingDirection = "isMovingLeft";
 
   if(direction === 'right') {
@@ -40,7 +39,6 @@ const toggleMoving = (playerId, direction, move) => {
   }
 
   player.data[movingDirection] = move;
-  console.log(player.data)
 }
 
 setInterval(() => {
@@ -56,18 +54,11 @@ setInterval(() => {
   });
 }, (1000/60));
 
-setInterval(() => {
-  // console.log(players)
-}, 1000)
-
 io.on('connection', function(socket){
   console.log('a user connected');
   const id = playerConnected(socket);
-  // console.log(players)
 
   socket.on('sending', function(data){
-        // console.log(data);
-
         io.emit('recieve', data);
 
 
@@ -78,31 +69,25 @@ io.on('connection', function(socket){
 
   socket.on('startLeft', function(msg){
      toggleMoving(id, 'left', true);
-     console.log('going left')
   });
 
   socket.on('stopLeft', function(msg){
      toggleMoving(id, 'left', false);
-     console.log('stopping left')
   });
 
   socket.on('startRight', function(msg){
      toggleMoving(id, 'right', true);
-     console.log('going right')
   });
 
   socket.on('stopRight', function(msg){
      toggleMoving(id, 'right', false);
-     console.log('stopping right')
   });
 
 
 });
 
 app.get('/', function (req, res) {
-  console.log(__dirname)
   res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
-  // res.sendfile(__dirname + '/../frontend/index.html');
 });
 
 server.listen(3000, function(){
