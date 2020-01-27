@@ -4,7 +4,8 @@ let ctx = canvas.getContext("2d");
 ctx.font = "30px Arial";
 
 let images = {
-    'standing' : [ document.getElementById('standing'), document.getElementById('standing2') ]
+    'standing' : [ document.getElementById('standing'), document.getElementById('standing2') ],
+    'walking' : [ document.getElementById('walking'), document.getElementById('walking2') ]
 }
 
 let singleActions = {
@@ -43,7 +44,7 @@ document.addEventListener( 'keyup', keyup )
 
 // Game Code
 
-let players = [{ name : 'test', x : 100, y : 100, state : 'standing' }]
+let players = [{ name : 'test', x : 100, y : 100, state : 'walking' }]
 let frame = 0;
 
 socket.on ( 'registerPlayer', info => {
