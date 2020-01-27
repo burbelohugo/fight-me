@@ -18,7 +18,7 @@ const playerConnected = (socket) => {
       y: 0,
       isMovingLeft: false,
       isMovingRight: false,
-      heath: 100
+      health: 100
     },
     socket
   };
@@ -54,7 +54,7 @@ const handleAttack = (playerId, direction) => {
   const attackingPosition = attackingPlayer.data.x;
   players.forEach(player => {
     if(player.data.id !== playerId && playerIsCloseToAttack(attackingPosition, player.data.x, direction)) {
-      player.data.heath =- 10;
+      player.data.health =- 10;
       console.log('ding')
     }
   })
