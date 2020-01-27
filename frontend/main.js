@@ -70,7 +70,7 @@ setInterval(() => {
         let frameNumber = frame % images[player.state].length ;
         
         ctx.fillStyle = "#FF0000"
-        ctx.fillRect(player.x, player.y, player.health, 5);
+        ctx.fillRect(player.x, player.y + 20, player.health, 5);
         ctx.fillStyle = "#000000"
 
         if ( player.flip ){
