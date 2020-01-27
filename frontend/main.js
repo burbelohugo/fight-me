@@ -4,7 +4,7 @@ let ctx = canvas.getContext("2d");
 ctx.font = "30px Arial";
 
 let images = {
-    'standing' : document.getElementById('standing')
+    'standing' : [ document.getElementById('standing'), document.getElementById('standing2') ]
 }
 
 let singleActions = {
@@ -34,7 +34,8 @@ document.addEventListener( 'keyup', keyup )
 
 // Game Code
 
-let players = [{ name : 'test', x : 100, y : 100 }]
+let players = [{ name : 'test', x : 100, y : 100, state : 'standing' }]
+let frame = 0;
 
 socket.on ( 'registerPlayer', info => {
     players[info.id] = info
@@ -56,9 +57,14 @@ setInterval(() => {
     
     players.forEach( player => {
 
+        let frameNumber = frame % images[player.state].length ;
+
         ctx.fillText(player.name, player.x + 20, player.y )
-        ctx.drawImage( images['standing'], player.x, player.y )
+        ctx.drawImage( images[player.state][frameNumber], player.x, player.y )
 
     })
 
 }, 1000 / 60);
+
+// Do animation froames
+setInterval( () => frame += 1, 300 )
