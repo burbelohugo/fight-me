@@ -17,6 +17,8 @@ function keydown ( evt ) {
         socket.emit('startRight', {} )
     if ( evt.key == 'Enter')
         socket.emit('Attack', {} )
+    if ( evt.key == ' ')
+        socket.emit('Jump', {} )
 }
 function keyup ( evt ){
     if ( evt.key == 'a' )
