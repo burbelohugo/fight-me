@@ -37,11 +37,9 @@ socket.on ( 'registerPlayer', info => {
     players[info.id] = { ... info, ... { name : 'test', flip : false, state : 'standing' } }
 })
 
-socket.on( 'stateUpdate', data => {
-    data.players.forEach( player => {
-        player.flip = player.x > players[player.id].x;
-        players[player.id] = { ... players[player.id], ... player }
-    })
+socket.on( 'stateUpdate', player => {
+    players[player.id].flip = player.x > players[player.id].x;
+    players[player.id] = { ... players[player.id], ... player }
 })
 
 // Game Loop
