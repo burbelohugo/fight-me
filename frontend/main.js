@@ -1,6 +1,7 @@
 let socket = io ();
 let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext("2d");
+let localId = 0;
 ctx.font = "30px Arial";
 
 let images = {
@@ -16,9 +17,9 @@ function keydown ( evt ) {
     if ( evt.key == 'd' )
         socket.emit('startRight', {} )
     if ( evt.key == 'Enter')
-        socket.emit('Attack', {} )
+        socket.emit( players[localId].flip ? 'attackLeft' : 'attackRight' )
     if ( evt.key == ' ')
-        socket.emit('Jump', {} )
+        socket.emit('jump', {} )
 }
 function keyup ( evt ){
     if ( evt.key == 'a' )
@@ -35,6 +36,7 @@ document.addEventListener( 'keyup', keyup )
 let players = { }
 let frame = 0;
 
+socket.on( 'setId', id => localId = id )
 socket.on ( 'registerPlayer', info => {
     players[info.id] = { ... info, ... { name : 'test', flip : false, state : 'standing' } }
     console.log( 'Recieved new player', info)
