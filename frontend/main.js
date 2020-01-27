@@ -53,7 +53,7 @@ socket.on( 'stateUpdate', player => {
     else
         player.state = 'standing'
     if ( player.id == localId && player.health == 0 ){
-        alert('You Died ;(')
+        document.body.style.background = 'red';
     }
 })
 
