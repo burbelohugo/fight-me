@@ -23,6 +23,15 @@ function keydown ( evt ) {
         socket.emit('doAction', { 'action' : singleActions[evt.key] } )
     if ( continuousActions[evt.key] )
         socket.emit('startAction', { 'action' : continuousActions[evt.key] } )
+
+    if ( evt.key == 'd' )
+        players[0].x += 10
+    if ( evt.key == 'a' )
+        players[0].x -= 10
+    if ( evt.key == 's' )
+        players[0].y += 10
+    if ( evt.key == 'w' )
+        players[0].y -= 10
 }
 function keyup ( evt ){
     if ( continuousActions[evt.key] )
