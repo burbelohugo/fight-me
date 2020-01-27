@@ -1,6 +1,7 @@
 let socket = io ();
 let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext("2d");
+ctx.font = "30px Arial";
 
 let images = {
     'standing' : document.getElementById('standing')
@@ -33,7 +34,7 @@ document.addEventListener( 'keyup', keyup )
 
 // Game Code
 
-let players = []
+let players = [{ name : 'test', x : 100, y : 100 }]
 
 socket.on ( 'registerPlayer', info => {
     players[info.id] = info
@@ -51,8 +52,13 @@ setInterval(() => {
     
     ctx.fillStyle = "#FFFFFF"
     ctx.fillRect(0, 0, 800, 800);
+    ctx.fillStyle = "#000000"
     
-    ctx.drawImage( images['standing'], 100, 100 )
-    
+    players.forEach( player => {
+
+        ctx.fillText(player.name, player.x + 20, player.y )
+        ctx.drawImage( images['standing'], player.x, player.y )
+
+    })
 
 }, 1000 / 60);
