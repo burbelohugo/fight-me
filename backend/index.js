@@ -53,7 +53,7 @@ const handleAttack = (playerId, direction) => {
   const attackingPlayer = getPlayer(playerId);
   const attackingPosition = attackingPlayer.data.x;
   players.forEach(player => {
-    if(player.id !== playerId && playerIsCloseToAttack(attackingPosition, player.data.x, direction)) {
+    if(player.data.id !== playerId && playerIsCloseToAttack(attackingPosition, player.data.x, direction)) {
       player.data.heath =- 10;
       console.log('ding')
     }
