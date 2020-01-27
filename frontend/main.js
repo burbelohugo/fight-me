@@ -73,6 +73,8 @@ setInterval(() => {
         ctx.fillRect(player.x, player.y + 20, player.health, 5);
         ctx.fillStyle = "#000000"
 
+        console.log( player.health )
+
         if ( player.flip ){
             ctx.translate(800, 0);
             ctx.scale(-1, 1);
